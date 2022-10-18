@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,19 +36,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column]
-    private ?int $note = null;
-
     #[ORM\Column(length: 255)]
     private ?string $passsword = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $post;
 
+    #[ORM\Column(type: Types::BINARY)]
+    private $admin = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $positiveNote = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $negativeNote = null;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Question::class, orphanRemoval: true)]
+    private Collection $questions;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Response::class, orphanRemoval: true)]
+    private Collection $responses;
+
     public function __construct()
     {
         $this->post = new ArrayCollection();
         $this->test = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+        $this->responses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,18 +159,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNote(): ?int
-    {
-        return $this->note;
-    }
-
-    public function setNote(int $note): self
-    {
-        $this->note = $note;
-
-        return $this;
-    }
-
     public function getPasssword(): ?string
     {
         return $this->passsword;
@@ -192,6 +195,102 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($post->getUser() === $this) {
                 $post->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin($admin): self
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    public function getPositiveNote(): ?int
+    {
+        return $this->positiveNote;
+    }
+
+    public function setPositiveNote(?int $positiveNote): self
+    {
+        $this->positiveNote = $positiveNote;
+
+        return $this;
+    }
+
+    public function getNegativeNote(): ?int
+    {
+        return $this->negativeNote;
+    }
+
+    public function setNegativeNote(?int $negativeNote): self
+    {
+        $this->negativeNote = $negativeNote;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getAuthor() === $this) {
+                $question->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Response>
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(Response $response): self
+    {
+        if (!$this->responses->contains($response)) {
+            $this->responses->add($response);
+            $response->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponse(Response $response): self
+    {
+        if ($this->responses->removeElement($response)) {
+            // set the owning side to null (unless already changed)
+            if ($response->getAuthor() === $this) {
+                $response->setAuthor(null);
             }
         }
 

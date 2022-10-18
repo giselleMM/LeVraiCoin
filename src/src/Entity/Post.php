@@ -32,15 +32,23 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
-    private ?Tag $tag = null;
-
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Question::class, orphanRemoval: true)]
     private Collection $questions;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $soldOn = null;
+
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts')]
+    private Collection $tag;
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PicturePost::class, orphanRemoval: true)]
+    private Collection $pictures;
 
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->tag = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,17 +116,6 @@ class Post
         return $this;
     }
 
-    public function getTag(): ?Tag
-    {
-        return $this->tag;
-    }
-
-    public function setTag(?Tag $tag): self
-    {
-        $this->tag = $tag;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Question>
@@ -144,6 +141,72 @@ class Post
             // set the owning side to null (unless already changed)
             if ($question->getPost() === $this) {
                 $question->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSoldOn(): ?\DateTimeInterface
+    {
+        return $this->soldOn;
+    }
+
+    public function setSoldOn(?\DateTimeInterface $soldOn): self
+    {
+        $this->soldOn = $soldOn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTag(): Collection
+    {
+        return $this->tag;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tag->removeElement($tag);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PicturePost>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(PicturePost $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures->add($picture);
+            $picture->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(PicturePost $picture): self
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getPost() === $this) {
+                $picture->setPost(null);
             }
         }
 

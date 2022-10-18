@@ -25,6 +25,10 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Response::class, orphanRemoval: true)]
     private Collection $responses;
 
+    #[ORM\ManyToOne(inversedBy: 'questions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
@@ -85,6 +89,18 @@ class Question
                 $response->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
