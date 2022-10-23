@@ -55,6 +55,11 @@
         </nav>
     </header>
     <body>
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
         {% block body %}
             <h2>This is a heading</h2>
 

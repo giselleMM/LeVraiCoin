@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+<h1>Search form</h1>
+
+     {{ form_start(form_search) }}
+        <h4>{{ form_label(form_search.title) }}</h4>
+        {{ form_widget(form_search.title) }}
+
+        <h4>Tag</h4>
+        {{ form_widget(form_search.tag_id) }}
+
+        <h4>{{ form_label(form_search.minimumPrice) }}</h4>
+        {{ form_widget(form_search.minimumPrice) }}
+
+        <h4>{{ form_label(form_search.maximumPrice) }}</h4>
+        {{ form_widget(form_search.maximumPrice) }}
+
+        <button class="btn waves-effect waves-light" type="submit" name="action">Ajouter
+        </button>
+    {{ form_end(form_search) }}
+
+    {% if tests |length > 0 %}
+
+        {% for test in tests %}
+
+            <h3>{{test.title}}</h3>
+            <a href="/test/{{test.id}}">En savoir plus</a>
+
+        {% endfor %}
+    
+    {% endif %}
+{% endblock %}

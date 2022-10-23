@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+<h1>Liste des posts</h1>
+    
+    {% for test in tests %}
+        <h3> {{ test.title }} </h3>
+    {% endfor %}
+{% endblock %}
