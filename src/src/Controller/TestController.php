@@ -79,7 +79,7 @@ class TestController extends AbstractController
                 'Super ! Un nouveau test a été ajoutée !'
             );
 
-            return $this->redirectToRoute('/index');
+            return $this->redirectToRoute('/test/search');
         }
         return  $this->render('test/test.html.twig', [
             'form' => $form->createView(),

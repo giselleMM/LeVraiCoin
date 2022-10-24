@@ -20,19 +20,25 @@ class SearchTestType extends AbstractType
             ])
             ->add('tag_id', ChoiceType::class, [
                 'choices' => [
-                    '' => '',
                     'mode' => "1",
                     'loisirs' => '2',
                     'multimedia' => '3',
                 ],
                 'required' => false,
-                'placeholder' => 'Choose a tag'
+                'expanded' => true,
+                'multiple' => true
             ])
             ->add('minimumPrice', NumberType::class, [
                 'required' => false,
             ])
             ->add('maximumPrice', NumberType::class, [
                 'required' => false,
+            ])
+            ->add('filter', ChoiceType::class, [
+                'choices' => [
+                    'id' => "id",
+                    'publication date' => 'published_on',
+                ]
             ]);
     }
 }
