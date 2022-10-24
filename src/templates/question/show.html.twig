@@ -7,33 +7,35 @@
 
 
 {% block body %}
-    <div style="padding:120px">
-        <div>
-            <img src="https://64.media.tumblr.com/00ad7d27c60484185a923a58cb6f3ec6/19a0bd562f3ee1d8-76/s1280x1920/ba76f9794024287432aac644cf2c407713487622.gif" class="card-img-top" alt="..." style="border-radius: 50%; width:200px; height: 200px"/>
-            <div class="card-body">
-                <h1>{{ question }}</h1>
-                <p> Par Auteur </p>
-                <p> Il y a Temps </p>
+    <div class="position-relative p-5" style="top: -200px">
+        <div class="bg-white rounded p-4" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+            <div>
+                <img src="https://64.media.tumblr.com/00ad7d27c60484185a923a58cb6f3ec6/19a0bd562f3ee1d8-76/s1280x1920/ba76f9794024287432aac644cf2c407713487622.gif" class="card-img-top" alt="..." style="border-radius: 50%; width:200px; height: 200px"/>
+                <div class="card-body">
+                    <h1>{{ question }}</h1>
+                    <p> Par Auteur </p>
+                    <p> Il y a Temps </p>
+                </div>
             </div>
-        </div>
-        <div style="display:flex;flex-direction: column;align-items: flex-start;">
-            <h3>Il y a {{ answers|length }} réponses</h3>            
-            <button class="btn btn-primary">Click me</button>
-        </div>
-        <div style="padding: 40px 0">
-            {% for answer in answers %}
-                <li class="list-group-item" style="display:flex;     justify-content: space-between;     align-items: center;">
-                    <div style="display:flex">
-                        <h5 style="padding: 0 10px 0 0">Auteur : </h5>
-                        <p style="max-width: 70%"> Auteur : {{ answer }}</p>
-                    </div>
-                    <div style="display:flex">
-                        <button type="button" class="btn btn-success" style="width:max-content">vote up</button>
-                        <button type="button" class="btn btn-danger">vote down</button>
-                        <button type="button" class="btn btn-secondary">+0</button>
-                    </div>
-                </li>
-            {% endfor %}
+            <div style="display:flex;flex-direction: column;align-items: flex-start;">
+                <h3>Il y a {{ answers|length }} réponses</h3>            
+                <button class="btn btn-primary">Click me</button>
+            </div>
+            <div style="padding: 40px 0">
+                {% for answer in answers %}
+                    <li class="list-group-item" style="display:flex;     justify-content: space-between;     align-items: center;">
+                        <div style="display:flex">
+                            <h5 style="padding: 0 10px 0 0">Auteur : </h5>
+                            <p style="max-width: 70%"> Auteur : {{ answer }}</p>
+                        </div>
+                        <div style="display:flex">
+                            <button type="button" class="btn btn-success" style="width:max-content">vote up</button>
+                            <button type="button" class="btn btn-danger">vote down</button>
+                            <button type="button" class="btn btn-secondary">+0</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
