@@ -59,7 +59,7 @@ class TestRepository extends ServiceEntityRepository
             ->setParameter('maximumPrice', $value['maximumPrice'])
             ->andWhere('t.title LIKE :title')
             ->setParameter('title', '%'.$value['title'].'%')
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.'.$value['filter'], 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()

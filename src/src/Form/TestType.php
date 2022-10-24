@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -18,7 +19,16 @@ class TestType extends AbstractType
     {
         $builder
             ->add('user_id', NumberType::class, ['required' => false])
-            ->add('tag_id', NumberType::class, ['required' => false])
+            ->add('tag_id', ChoiceType::class, [
+                'choices' => [
+                    'mode' => "1",
+                    'loisirs' => '2',
+                    'multimedia' => '3',
+                ],
+                'required' => false,
+                'expanded' => true,
+                'multiple' => true
+                ])
             ->add('title', TextType::class, ['required' => false])
             ->add('description', TextareaType::class, ['required' => false])
             ->add('price', NumberType::class, ['required' => false])
