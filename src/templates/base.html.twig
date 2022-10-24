@@ -55,19 +55,8 @@
         </nav>
     </header>
     <body>
-        {% for message in app.flashes('notice') %}
-            <div class="flash-notice">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% block body %}
-            <h2>This is a heading</h2>
-
-            <p>This is a paragraph.</p>
-            <p>This is another paragraph.</p>
-
-            <button class="btn btn-primary">Click me</button>
-        {% endblock %}
+    {% block body %}
+    {% endblock %}
     </body>
 </html>
 
