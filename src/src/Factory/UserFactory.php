@@ -40,12 +40,12 @@ final class UserFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'email' => self::faker()->text(),
+            'email' => self::faker()->email(),
             'roles' => [],
-            'password' => self::faker()->text(),
-            'firstname' => self::faker()->text(),
-            'lastname' => self::faker()->text(),
-            'admin' => null, // TODO add BINARY ORM type manually
+            'password' => '$2y$13$n4X4XEsVte5yMkj/B1btw.eV0VdJJLpTcaybu.NNL4mtVTUDU4Dfu', /* -> (correspond a 'password') */
+            'firstname' => self::faker()->firstname(),
+            'lastname' => self::faker()->lastname(),
+            'admin' => 0, // TODO add BINARY ORM type manually
         ];
     }
 
