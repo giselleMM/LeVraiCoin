@@ -78,6 +78,16 @@
       <path value="$PROJECT_DIR$/src/vendor/symfony/password-hasher" />
       <path value="$PROJECT_DIR$/src/vendor/symfony/security-bundle" />
       <path value="$PROJECT_DIR$/src/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/form" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/polyfill-intl-icu" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/options-resolver" />
+      <path value="$PROJECT_DIR$/src/vendor/symfony/validator" />
+      <path value="$PROJECT_DIR$/src/vendor/zenstruck/assert" />
+      <path value="$PROJECT_DIR$/src/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/src/vendor/zenstruck/foundry" />
+      <path value="$PROJECT_DIR$/src/vendor/zenstruck/callback" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/doctrine-fixtures-bundle" />
+      <path value="$PROJECT_DIR$/src/vendor/doctrine/data-fixtures" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
