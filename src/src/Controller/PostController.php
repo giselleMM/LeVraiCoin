@@ -12,24 +12,13 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class PostController extends AbstractController
 {
-   /*  #[Route('/post', name: 'post')]
+    #[Route('/posts/', name: 'posts')]
     public function createPost(ManagerRegistry $doctrine): Response
-    {
-        $entityManager = $doctrine->getManager();
+    {   
+/*        $test = $doctrine->getRepository(Post::class)->findOneBySomeField("price", 123  ); */        
+        $test = $doctrine->getRepository(Post::class)->findAll();
+        dd($test);
 
-        $post = new Post();
-        $post->setTitle('Air Jordan 1 Low');
-        $post->setPrice(119);
-        $post->setDescription("Toujours stylée, toujours tendance. Fidèle à l'histoire et à l'héritage de Jordan, la Air Jordan 1 Low vous offre un confort optimal tout au long de la journée. Choisissez vos couleurs et démarquez-vous grâce à sa silhouette emblématique conçue dans un mélange de matières haut de gamme et agrémentée d'une unité Air encapsulée au talon.");
-        $post->setPublishedOn(date_create());
-        $post->setUser("admin");
-
-        // tell Doctrine you want to (eventually) save the post (no queries yet)
-        $entityManager->persist($post);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-
-        return new Response('Saved new post with id '.$post->getId());
-    } */
+        return $this->render('posts/posts.html.twig'); 
+    }
 }

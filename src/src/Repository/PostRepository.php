@@ -13,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Post|null findOneBy(array $criteria, array $orderBy = null)
  * @method Post[]    findAll()
  * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Post[]    findOneBySomeField($field = null, $value = null)
  */
 class PostRepository extends ServiceEntityRepository
 {
@@ -39,6 +40,21 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Post[]
+     */
+    
+    public function findOneBySomeField($field, $value)
+    {
+        $field = "p." . $field;
+        return $this->createQueryBuilder('p')
+            ->andWhere($field . ' = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
@@ -54,13 +70,5 @@ class PostRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Post
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    
 }
