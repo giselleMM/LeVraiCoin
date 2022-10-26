@@ -18,8 +18,10 @@ class PostController extends AbstractController
 /*        $test = $doctrine->getRepository(Post::class)->findOneBySomeField("price", 123  ); */        
         $posts = $doctrine->getRepository(Post::class)->findAll();
 
-        return $this->render('posts/posts.html.twig', [
+        dd($posts);
+
+        /* return $this->render('posts/posts.html.twig', [
             'posts' => $posts
-        ]); 
+        ]);  */
     }
 }
