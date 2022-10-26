@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
         UserFactory::createMany(10);
 
         // create 20 Tag's
-        TagFactory::createMany(20);
+        TagFactory::createMany(5);
 
         // create 50 Post's
         PostFactory::createMany(5, function() {
@@ -31,7 +31,7 @@ class AppFixtures extends Fixture
              ];
         });
 
-        QuestionFactory::createMany(50, function() {
+        QuestionFactory::createMany(5, function() {
             return [
                 // each Post will have a random Category (chosen from those created above)
                 'author' => UserFactory::random(),
@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
              ];
         });
 
-        ResponseFactory::createMany(50, function() {
+        ResponseFactory::createMany(5, function() {
             return [
                 // each Post will have a random Category (chosen from those created above)
                 'question' => QuestionFactory::random(),

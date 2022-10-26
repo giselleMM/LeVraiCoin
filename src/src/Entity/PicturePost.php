@@ -14,10 +14,10 @@ class PicturePost
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BLOB)]
+    #[ORM\Column(type: Types::STRING)]
     private $photo = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pictures')]
+    #[ORM\ManyToOne(inversedBy: 'pictures', fetch:"EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Post $post = null;
 
