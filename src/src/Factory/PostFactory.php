@@ -43,7 +43,7 @@ final class PostFactory extends ModelFactory
             'title' => self::faker()->text(),
             'description' => self::faker()->text(),
             'price' => self::faker()->randomNumber(),
-            'publishedOn' => null, // TODO add DATETIME ORM type manually
+            'publishedOn' => self::faker()->dateTime(), // TODO add DATETIME ORM type manually
         ];
     }
 
