@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\PicturePost;
 use App\Factory\PicturePostFactory;
 use App\Factory\PostFactory;
 use App\Factory\UserFactory;
@@ -22,10 +23,11 @@ class AppFixtures extends Fixture
         TagFactory::createMany(20);
 
         // create 50 Post's
-        PostFactory::createMany(50, function() {
+        PostFactory::createMany(5, function() {
             return [
                 // each Post will have a random Category (chosen from those created above)
                 'user' => UserFactory::random(),
+                'pictures' => PicturePostFactory::new()->many(2),
              ];
         });
 
@@ -42,13 +44,6 @@ class AppFixtures extends Fixture
                 // each Post will have a random Category (chosen from those created above)
                 'question' => QuestionFactory::random(),
                 'author' => UserFactory::random(),
-             ];
-        });
-
-        PicturePostFactory::createMany(50, function() {
-            return [
-                // each Post will have a random Category (chosen from those created above)
-                'post' => PostFactory::random(),
              ];
         });
     }

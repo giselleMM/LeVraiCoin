@@ -38,9 +38,10 @@ final class PicturePostFactory extends ModelFactory
 
     protected function getDefaults(): array
     {
+        $photo = self::faker()->imageUrl(360, 360, 'object', true);
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'photo' => self::faker()->image(null, 360, 360, 'object', true),
+            'photo' => $photo,
         ];
     }
 
