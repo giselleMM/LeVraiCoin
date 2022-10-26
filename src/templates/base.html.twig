@@ -24,8 +24,12 @@
     </head>
     {{ render(controller('App\\Controller\\BaseController::navbar')) }}
     <body>
-    {% block body %}
-    {% endblock %}
+    <div class="position-relative p-5" style="top: -200px">
+        <div class="bg-white rounded p-4" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
     </body>
 </html>
 

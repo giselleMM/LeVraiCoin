@@ -12,13 +12,14 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class PostController extends AbstractController
 {
-    #[Route('/posts/', name: 'posts')]
+    #[Route('/', name: 'posts')]
     public function createPost(ManagerRegistry $doctrine): Response
     {   
 /*        $test = $doctrine->getRepository(Post::class)->findOneBySomeField("price", 123  ); */        
-        $test = $doctrine->getRepository(Post::class)->findAll();
-        dd($test);
+        $posts = $doctrine->getRepository(Post::class)->findAll();
 
-        return $this->render('posts/posts.html.twig'); 
+        return $this->render('posts/posts.html.twig', [
+            'posts' => $posts
+        ]); 
     }
 }

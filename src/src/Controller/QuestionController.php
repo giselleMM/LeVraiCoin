@@ -8,14 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class QuestionController extends AbstractController 
 {   
-    /** 
-    * @Route("/")
-    * @return Response
-    */
-    public function homepage(){ 
-        return new Response('Hello world (again)');
-    }
-
     /**
      * @Route("/questions/{ma_wildcard}")
      */
