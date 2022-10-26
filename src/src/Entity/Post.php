@@ -28,7 +28,7 @@ class Post
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $publishedOn = null;
 
-    #[ORM\ManyToOne(inversedBy: 'post')]
+    #[ORM\ManyToOne(inversedBy: 'post', fetch:"EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
