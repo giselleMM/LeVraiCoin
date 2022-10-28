@@ -27,6 +27,7 @@ class AppFixtures extends Fixture
             return [
                 // each Post will have a random Category (chosen from those created above)
                 'user' => UserFactory::random(),
+                'tag' => TagFactory::random(),
                 'pictures' => PicturePostFactory::new()->many(2),
              ];
         });

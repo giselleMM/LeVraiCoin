@@ -15,10 +15,11 @@ class Tag
     #[ORM\Column]
     private ?int $id = null;
 
+
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'tag')]
+    #[ORM\OneToMany(mappedBy: 'tag_id', targetEntity: Post::class)]
     private Collection $posts;
 
     public function __construct()
@@ -55,7 +56,7 @@ class Tag
     {
         if (!$this->posts->contains($post)) {
             $this->posts->add($post);
-            $post->addTag($this);
+            $post->setTagId($this);
         }
 
         return $this;
@@ -64,9 +65,15 @@ class Tag
     public function removePost(Post $post): self
     {
         if ($this->posts->removeElement($post)) {
-            $post->removeTag($this);
+            // set the owning side to null (unless already changed)
+            if ($post->getTagId() === $this) {
+                $post->setTagId(null);
+            }
         }
 
         return $this;
     }
+
+    
+
 }

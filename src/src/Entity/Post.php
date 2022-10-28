@@ -38,16 +38,16 @@ class Post
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $soldOn = null;
 
-    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts')]
-    private Collection $tag;
-
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: PicturePost::class, orphanRemoval: true)]
     private Collection $pictures;
+
+    #[ORM\ManyToOne(inversedBy: 'posts', fetch:"EAGER")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tag $tag = null;
 
     public function __construct()
     {
         $this->questions = new ArrayCollection();
-        $this->tag = new ArrayCollection();
         $this->pictures = new ArrayCollection();
     }
 
@@ -116,6 +116,19 @@ class Post
         return $this;
     }
 
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?Tag $tag): self
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+
 
     /**
      * @return Collection<int, Question>
@@ -155,30 +168,6 @@ class Post
     public function setSoldOn(?\DateTimeInterface $soldOn): self
     {
         $this->soldOn = $soldOn;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Tag>
-     */
-    public function getTag(): Collection
-    {
-        return $this->tag;
-    }
-
-    public function addTag(Tag $tag): self
-    {
-        if (!$this->tag->contains($tag)) {
-            $this->tag->add($tag);
-        }
-
-        return $this;
-    }
-
-    public function removeTag(Tag $tag): self
-    {
-        $this->tag->removeElement($tag);
 
         return $this;
     }
