@@ -57,15 +57,11 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'app_post_one')]
-    public function showPost(EntityManagerInterface $entityManager, Post $id): Response
+    public function showPost(Post $post): Response
     {
-        $post = $entityManager->getRepository(Post::class)->findOneBy(['id' => $id]);
-        dd($post);
-        /*
-          return $this->render('posts/posts.html.twig', [
+        return $this->render('posts/post.html.twig', [
             'post' => $post
         ]);
-         */
     }
 
     #[Route('/create-post', name: 'app_create_post')]
