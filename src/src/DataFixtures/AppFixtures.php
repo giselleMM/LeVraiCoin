@@ -2,15 +2,16 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Tag;
 use App\Entity\PicturePost;
-use App\Factory\PicturePostFactory;
+use App\Factory\TagFactory;
 use App\Factory\PostFactory;
 use App\Factory\UserFactory;
-use App\Factory\TagFactory;
 use App\Factory\QuestionFactory;
 use App\Factory\ResponseFactory;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Factory\PicturePostFactory;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
 {
@@ -19,8 +20,23 @@ class AppFixtures extends Fixture
         // create 10 Category's
         UserFactory::createMany(10);
 
-        // create 20 Tag's
-        TagFactory::createMany(5);
+        /* // create 20 Tag's
+        TagFactory::createMany(5); */
+
+        $arrayTag = [
+            'vetements',
+            'immobilier',
+            'electromenager',
+            'vehicule',
+            'service',
+        ];
+
+        for($i=0; $i<5; $i++){
+            $tagTemp = new Tag();
+            $tagTemp->setName($arrayTag[$i]);
+            $manager->persist($tagTemp);
+        }
+        $manager->flush();
 
         // create 50 Post's
         PostFactory::createMany(5, function() {

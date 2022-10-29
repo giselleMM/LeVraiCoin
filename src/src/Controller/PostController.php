@@ -4,17 +4,21 @@ namespace App\Controller;
 
 // ...
 
-use App\Entity\PicturePost;
+use App\Entity\Post;
+use App\Form\PostType;
 use App\Form\PostFormType;
+use App\Entity\PicturePost;
+use App\Repository\TagRepository;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Doctrine\Persistence\ManagerRegistry;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use App\Entity\Post;
-use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostController extends AbstractController
 {
@@ -25,6 +29,31 @@ class PostController extends AbstractController
         return $this->render('posts/posts.html.twig', [
             'posts' => $posts
         ]); 
+    }
+
+    #[Route('/search-post', name: 'search_posts')]
+
+    public function searchPost(Request $request, PostRepository $PostRepository, TagRepository $TagRepository){
+        $posts = [];
+        $tags = 0;
+        $searchPostForm = $this->createForm(PostFormType::class);
+
+        if($searchPostForm->handleRequest($request)->isSubmitted() && $searchPostForm->isValid()){
+            $criteria = $searchPostForm->getData();
+            $tags = $TagRepository->searchTag($criteria['tag_id']);
+            if(isset($tags[0])){
+                dump($tags[0]->getId());
+                $criteria['tag_id'] = $tags[0]->getId();
+            }else{
+                $criteria['tag_id'] = '';
+            }
+            $posts = $PostRepository->searchPost($criteria);
+
+        }
+        return $this->render('search/post.html.twig', [
+            'form_search' => $searchPostForm->createView(),
+            'posts' => $posts,
+        ]);
     }
 
     #[Route('/post/{id}', name: 'app_post_one')]
@@ -40,23 +69,31 @@ class PostController extends AbstractController
     }
 
     #[Route('/create-post', name: 'app_create_post')]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $manager, UserInterface $user): Response
     {
-        $post = new Post();
-        $form = $this->createForm(PostFormType::class, $post);
-        $form->handleRequest($request);
+        $form_create = $this->createForm(PostType::class);
 
-        //Récupératiopn de l'id post et l'id user. Si possible, le front envoi une requête avec les données du form et les différents id needed
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($post);
-            $entityManager->flush();
+        $form_create->handleRequest($request);
+
+        if($form_create->isSubmitted() && $form_create->isValid()){
+            $post = new Post();
+            $post = $form_create->getData();
+            $post->setPublishedOn(new \DateTime());
+            $post->setUser($this->getUser());
+            $manager->persist($post);
+            $manager->flush();
+
+            $this->addFlash(
+                'notice',
+                'Super ! Un nouveau post'
+            );
+
             return $this->redirectToRoute('posts');
         }
-        dd($form);
-        /*
-        return $this->render('/post.html.twig', [
-            'postForm' => $form->createView(),
-        ]);*/
+
+        return $this->render('posts/create.html.twig', [
+            'form_create' => $form_create ->createView()
+        ]);
     }
 
     #[Route('/update-post/{id}', name: 'app_update_post')]
