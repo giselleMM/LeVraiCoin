@@ -44,14 +44,46 @@ class PostRepository extends ServiceEntityRepository
      * @return Post[]
      */
     
-    public function findOneBySomeField($field, $value)
+    public function searchPost($value): array
     {
-        $field = "p." . $field;
-        return $this->createQueryBuilder('p')
-            ->andWhere($field . ' = :val')
-            ->setParameter('val', $value)
+        if($value['minimumPrice'] == null){
+            $value['minimumPrice'] = "0";
+        }
+        if($value['maximumPrice'] == null){
+            $value['maximumPrice'] = "1000000000";
+        }
+
+        $withTAG = $this->createQueryBuilder('t')
+            ->andWhere('t.tag = :tag')
+            ->setParameter('tag', $value['tag_id'])
+            ->andWhere('t.price > :minimumPrice')
+            ->setParameter('minimumPrice', $value['minimumPrice'])
+            ->andWhere('t.price < :maximumPrice')
+            ->setParameter('maximumPrice', $value['maximumPrice'])
+            ->andWhere('t.title LIKE :title')
+            ->setParameter('title', '%'.$value['title'].'%')
+            ->orderBy('t.'.$value['filter'], 'DESC')
+            ->setMaxResults(10)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult();
+
+        $withOutTAG = $this->createQueryBuilder('t')
+            ->andWhere('t.price > :minimumPrice')
+            ->setParameter('minimumPrice', $value['minimumPrice'])
+            ->andWhere('t.price < :maximumPrice')
+            ->setParameter('maximumPrice', $value['maximumPrice'])
+            ->andWhere('t.title LIKE :title')
+            ->setParameter('title', '%'.$value['title'].'%')
+            ->orderBy('t.'.$value['filter'], 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+
+        if($value['tag_id']!=''){
+            return $withTAG;
+        }else{
+            return $withOutTAG;
+        }
         ;
     }
 
