@@ -118,6 +118,7 @@ class PostController extends AbstractController
     #[Route('/delete-post/{id}', name: 'app_delete_post')]
     public function delete(EntityManagerInterface $entityManager, Post $id): Response
     {
+        //TODO Ajouter condition de vérification if author du post and if admin or not
         $post = $entityManager->getRepository(Post::class)->findOneBy(['id' => $id]);
         if (!$post) {
             throw $this->createNotFoundException(

@@ -51,4 +51,13 @@
         </div>
     </div>
 </div>
+    {% for question in post.questions %}
+        <h3>{{ question.label }}</h3>
+        <ul>
+            {% for reponse in question.responses %}
+                <li> {{ reponse.content }}</li>
+            {% endfor %}
+        </ul>
+
+    {% endfor %}
 {% endblock %}
