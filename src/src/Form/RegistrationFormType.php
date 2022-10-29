@@ -21,39 +21,47 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label'=> 'Votre prénom',
+                'label'=> 'Firstname',
                 'attr' =>[
-                    'placeholder'=> "Merci de saisir votre prénnom"
+                    'placeholder'=> "John",
+                    'class' => "form-control mb-3"
                 ]
             ])
             ->add('lastname', TextType::class, [
-                'label'=> 'Votre Nom',
+                'label'=> 'Lastname',
                 'attr' =>[
-                    'placeholder' => 'Saisir votre nom'
+                    'placeholder' => 'Bob',
+                    'class' => "form-control mb-3"
                 ]
             ])
             ->add('email', EmailType::class,[
-                'label'=> "Votre Email",
+                'label'=> "Email",
                 'attr' => [
-                    'placeholder' => 'Saisir votre adresse email'
+                    'placeholder' => 'johnbob@example.com',
+                    'class' => "form-control mb-3"
                 ]
             ])
             //->add('roles')
             ->add('password', PasswordType::class, [
-                'label'=>'Votre mot de passe',
+                'label'=>'Password',
                 'attr'=> [
-                    'placeholder' => "Saisir votre mot de passe"
+                    'placeholder' => "",
+                    'class' => "form-control mb-3"
                 ]
             ])
             ->add('password_confirm', PasswordType::class,[
-                'label' => 'Confirmer votre mot de passe',
+                'label' => 'Confirm Password',
                 'mapped'=> false,
                 'attr' => [
-                    'placeholder' => "Saisir de nouveau votre mot de plasse"
+                    'placeholder' => "",
+                    'class' => "form-control mb-3"
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label'=> "S'inscrire"
+                'label'=> "Register",
+                'attr' => [
+                    'class' => "btn btn-outline-dark me-2"
+                ]
             ])
         ;
     }
