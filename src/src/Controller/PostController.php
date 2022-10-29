@@ -6,13 +6,13 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
-use App\Form\PostFormType;
 use App\Entity\PicturePost;
+use App\Form\SearchFormType;
 use App\Repository\TagRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,7 +36,7 @@ class PostController extends AbstractController
     public function searchPost(Request $request, PostRepository $PostRepository, TagRepository $TagRepository){
         $posts = [];
         $tags = 0;
-        $searchPostForm = $this->createForm(PostFormType::class);
+        $searchPostForm = $this->createForm(SearchFormType::class);
 
         if($searchPostForm->handleRequest($request)->isSubmitted() && $searchPostForm->isValid()){
             $criteria = $searchPostForm->getData();
@@ -100,7 +100,7 @@ class PostController extends AbstractController
     public function update(Request $request, EntityManagerInterface $entityManager, Post $id): Response
     {
         $post = $entityManager->getRepository(Post::class)->findOneBy(['id' => $id]);
-        $form = $this->createForm(PostFormType::class, $post);
+        $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
