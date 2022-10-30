@@ -95,6 +95,8 @@ class PostController extends AbstractController
                 'notice',
                 'Super ! Une nouvelle question'
             );
+
+            return $this->redirect($request->getUri());
         }
 
         return $this->render('posts/post.html.twig', [
