@@ -4,30 +4,8 @@
     
 <h1>{{ post.title }}</h1>
 
-{{form_start(form_question)}}
-
-    <button class="btn waves-effect waves-light" type="submit" name="action">Ajouter
-            </button>
-
-{{form_end(form_question)}}
-
-{% if questions_answers |length > 0 %}
-
-        {% for question_answer in questions_answers %}
 
 
 
-                <h3>{{question_answer[0].label}}</h3>
-                <a href="/question/{{question_answer[0].id}}">Répondre à la question</a>
-
-                {% for response in question_answer[1] %}
-
-                        <p>{{response.content}}</p>
-
-                {% endfor %}
-
-        {% endfor %}
-    
-{% endif %}
 
 {% endblock %}

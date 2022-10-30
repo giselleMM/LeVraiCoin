@@ -14,7 +14,13 @@ class QuestionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('label', TextareaType::class, ['required' => true])
+            ->add('Question:', TextareaType::class, [
+                'required' => true,
+                'attr' =>[
+                    'placeholder' => "Write here your question...",
+                    'class' => "bg-white w-100"
+                ]
+            ])
         ;
     }
 

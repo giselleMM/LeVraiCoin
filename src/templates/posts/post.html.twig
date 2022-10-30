@@ -52,11 +52,15 @@
     </div>
 </div>
 
-{{form_start(form_question)}}
-    <button class="btn waves-effect waves-light" type="submit" name="action">
-        Ajouter
-    </button>
-{{form_end(form_question)}}
+
+<div>
+    {{form_start(form_question)}}
+        <button class="btn btn-warning text-white rounded" type="submit" name="action">
+            Ajouter
+        </button>
+    {{form_end(form_question)}}
+</div>
+
 
 {% if questions_answers |length > 0 %}
     {% for question_answer in questions_answers %}
