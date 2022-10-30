@@ -97,7 +97,7 @@ class PostController extends AbstractController
             );
         }
 
-        return $this->render('posts/fiche.html.twig', [
+        return $this->render('posts/post.html.twig', [
             'form_question' => $form_question ->createView(),
             'post' => $post,
             'questions' => $questions,
