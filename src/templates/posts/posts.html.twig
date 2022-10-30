@@ -11,7 +11,9 @@
 <div class="" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; ">
     {% for post in posts %}
         <div class="p-3 d-flex flex-column border rounded" style="cursor: pointer;" onClick="location.href='/post/{{post.id}}'">
-            <img src='{{post.pictures[0].photo}}' />
+            {% if post.pictures[0].photo is defined  %}
+                <img src='{{post.pictures[0].photo}}' />
+            {% endif %}
             <span>{{post.title}}</span>
             <span class="pb-2">{{post.description}}</span>
             <span>{{post.price}} $</span>
