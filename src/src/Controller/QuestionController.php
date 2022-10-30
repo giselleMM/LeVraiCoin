@@ -58,6 +58,7 @@ class QuestionController extends AbstractController
                 'notice',
                 'Super ! Une nouvelle answer'
             );
+            return $this->redirect($request->getUri());
         }
         
 
