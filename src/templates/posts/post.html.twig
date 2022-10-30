@@ -52,23 +52,22 @@
     </div>
 </div>
 
-
-<div>
-    {{form_start(form_question)}}
-        <button class="btn btn-warning text-white rounded" type="submit" name="action">
-            Ajouter
-        </button>
-    {{form_end(form_question)}}
+<div class="pt-3">
+    {{ form(form_question) }}
 </div>
-
 
 {% if questions_answers |length > 0 %}
     {% for question_answer in questions_answers %}
-        <h3>{{question_answer[0].label}}</h3>
-        <a href="/question/{{question_answer[0].id}}">Répondre à la question</a>
+        <div class="d-flex flex-column border p-3 rounded mt-4 mb-2">
+            <h3>{{question_answer[0].label}}</h3>
+            <a class="pl-3" style="margin-top: -10px" href="/question/{{question_answer[0].id}}">Répondre à la question</a>
+        </div>
 
         {% for response in question_answer[1] %}
-            <p>{{response.content}}</p>
+            <div class="ml-4 border rounded p-2 m-3 bg-light">
+                <span>Response from: {{ response.author.firstname }} {{ response.author.lastname }}</span>
+                <div style="font-size: 14px">{{response.content}}</div>
+            </div>
         {% endfor %}
     {% endfor %}
 {% endif %}
