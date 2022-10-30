@@ -7,6 +7,7 @@ use App\Entity\PicturePost;
 use App\Factory\TagFactory;
 use App\Factory\PostFactory;
 use App\Factory\UserFactory;
+use App\Factory\AnswerFactory;
 use App\Factory\QuestionFactory;
 use App\Factory\ResponseFactory;
 use App\Factory\PicturePostFactory;
@@ -57,6 +58,14 @@ class AppFixtures extends Fixture
         });
 
         ResponseFactory::createMany(5, function() {
+            return [
+                // each Post will have a random Category (chosen from those created above)
+                'question' => QuestionFactory::random(),
+                'author' => UserFactory::random(),
+             ];
+        });
+
+        AnswerFactory::createMany(5, function() {
             return [
                 // each Post will have a random Category (chosen from those created above)
                 'question' => QuestionFactory::random(),

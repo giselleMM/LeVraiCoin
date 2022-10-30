@@ -42,17 +42,17 @@ class ResponseRepository extends ServiceEntityRepository
 //    /**
 //     * @return Response[] Returns an array of Response objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByQuestion($value): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.question = :question')
+            ->setParameter('question', $value)
+            ->orderBy('r.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Response
 //    {

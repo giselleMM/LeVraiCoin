@@ -5,13 +5,18 @@ namespace App\Controller;
 // ...
 
 use App\Entity\Post;
+use App\Entity\Answer;
 use App\Form\PostType;
+use App\Entity\Question;
 use App\Entity\PicturePost;
+use App\Form\AnswerFormType;
 use App\Form\SearchFormType;
+use App\Form\QuestionFormType;
+
 use App\Repository\TagRepository;
 use App\Repository\PostRepository;
+use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,11 +62,49 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'app_post_one')]
-    public function showPost(Post $post): Response
+    public function showPost(Post $id, Request $request, EntityManagerInterface $manager, UserInterface $user, ManagerRegistry $doctrine): Response
     {
-        return $this->render('posts/post.html.twig', [
-            'post' => $post
+        $post = $manager->getRepository(Post::class)->findOneBy(['id' => $id]);
+
+        $questions = $doctrine->getRepository(Question::class)->findByPost($post);
+
+        $answers_responses =[];
+
+
+        for($i=0; $i<count($questions); $i++){
+            $answer = $doctrine->getRepository(Answer::class)->findByQuestion($questions[$i]);
+            array_push($answers_responses, array($questions[$i], $answer));
+        }
+
+
+
+        $form_question = $this->createForm(QuestionFormType::class);
+
+        $form_question->handleRequest($request);
+
+
+        if($form_question->isSubmitted() && $form_question->isValid()){
+            $question = new Question();
+            $question = $form_question->getData();
+            $question->setAuthor($this->getUser());
+            $question->setPost($post);
+            $manager->persist($question);
+            $manager->flush();
+
+            $this->addFlash(
+                'notice',
+                'Super ! Une nouvelle question'
+            );
+        }
+
+        return $this->render('posts/fiche.html.twig', [
+            'form_question' => $form_question ->createView(),
+            'post' => $post,
+            'questions' => $questions,
+            'questions_answers' => $answers_responses
         ]);
+        
+        
     }
 
     #[Route('/create-post', name: 'app_create_post')]
